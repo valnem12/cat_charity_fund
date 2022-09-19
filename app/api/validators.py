@@ -13,8 +13,10 @@ async def check_name_duplicate(
         project_name: str,
         session: AsyncSession,
 ) -> None:
-    '''Проверяет название проекта на уникальность.'''
-    new_project_name = await charity_project_crud.get_project_by_name(project_name, session)
+    """Проверяет название проекта на уникальность."""
+    new_project_name = await (
+        charity_project_crud.get_project_by_name(project_name, session)
+    )
     if new_project_name is not None:
         raise HTTPException(
             status_code=HTTPStatus.BAD_REQUEST,
@@ -39,7 +41,7 @@ async def check_project_invest(
     project_id: int,
     session: AsyncSession,
 ) -> CharityProject:
-    '''Проверяет внесённую сумму в проект.'''
+    """Проверяет внесённую сумму в проект."""
     project = await check_project_exists(project_id, session)
     if project.invested_amount:
         raise HTTPException(
@@ -54,7 +56,7 @@ async def check_project_update(
     obj_in: CharityProjectUpdate,
     session: AsyncSession,
 ) -> CharityProject:
-    '''Редактирование проекта Только для суперюзеров.'''
+    """Редактирование проекта Только для суперюзеров."""
 
     project = await charity_project_crud.get(project_id, session)
     if not project:

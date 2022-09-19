@@ -6,7 +6,7 @@ from app.core.db import Base
 
 
 def close_obj(objs: List[Base]) -> None:
-    '''Помечает объекты с рапределёнными инвестициями.'''
+    """Помечает объекты с рапределёнными инвестициями."""
     for obj in objs:
         if obj.full_amount == obj.invested_amount:
             obj.fully_invested = True
@@ -18,7 +18,7 @@ async def investment_process(
     in_obj_invest: Base,
     session: AsyncSession
 ):
-    '''Процесс распределения инвестиций.'''
+    """Процесс распределения инвестиций."""
     all_investments = await in_obj_invest.get_for_separations(session)
     for investment in all_investments:
         need_for_invest = from_obj_invest.full_amount - from_obj_invest.invested_amount

@@ -19,7 +19,7 @@ from app.services import constants as const
 
 
 async def get_user_db(session: AsyncSession = Depends(get_async_session)):
-    '''Асинхронный генератор, обеспечивает доступ к БД'''
+    """Асинхронный генератор, обеспечивает доступ к БД"""
     yield SQLAlchemyUserDatabase(session, User)
 
 
@@ -27,8 +27,10 @@ bearer_transport = BearerTransport(tokenUrl='auth/jwt/login')
 
 
 def get_jwt_strategy() -> JWTStrategy:
-    '''Cтратегия хранения токенов в виде JWT'''
-    return JWTStrategy(secret=settings.secret, lifetime_seconds=3600)
+    """Cтратегия хранения токенов в виде JWT"""
+    return JWTStrategy(
+        secret=settings.secret, lifetime_seconds=const.LIFETIME_SECONDS
+    )
 
 
 auth_backend = AuthenticationBackend(
@@ -39,7 +41,7 @@ auth_backend = AuthenticationBackend(
 
 
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
-    '''Производит валидацию, верификацию, регистрацию и пр.'''
+    """Производит валидацию, верификацию, регистрацию и пр."""
 
     async def validate_password(
         self,
@@ -62,7 +64,7 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
 
 
 async def get_user_manager(user_db=Depends(get_user_db)):
-    '''Возвращает объект класса UserManager'''
+    """Возвращает объект класса UserManager"""
     yield UserManager(user_db)
 
 

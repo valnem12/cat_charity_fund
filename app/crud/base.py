@@ -13,19 +13,19 @@ class CRUDBase:
         self.model = model
 
     async def get(self, obj_id: int, session: AsyncSession):
-        '''Получение одного объекта.'''
+        """Получение одного объекта."""
         db_obj = await session.execute(
             select(self.model).where(self.model.id == obj_id)
         )
         return db_obj.scalars().first()
 
     async def get_multi(self, session: AsyncSession):
-        '''Получение всех объектов в БД.'''
+        """Получение всех объектов в БД."""
         db_objs = await session.execute(select(self.model))
         return db_objs.scalars().all()
 
     async def get_for_separations(self, session: AsyncSession):
-        '''Получение всех объектов с незакрытыми инвестициями.'''
+        """Получение всех объектов с незакрытыми инвестициями."""
         objs = await session.scalars(
             select(self.model).where(
                 self.model.fully_invested.is_(False)
@@ -39,7 +39,7 @@ class CRUDBase:
         self, obj_in, session: AsyncSession, user: Optional[User] = None,
         create_date: bool = True
     ):
-        '''Сохраняет запись в БД с датой создания.'''
+        """Сохраняет запись в БД с датой создания."""
         obj_in_data = obj_in.dict()
         if user:
             obj_in_data['user_id'] = user.id
@@ -50,7 +50,7 @@ class CRUDBase:
         return db_obj
 
     async def update(self, db_obj, obj_in, session: AsyncSession):
-        '''Обновление объекта в БД.'''
+        """Обновление объекта в БД."""
         obj_data = jsonable_encoder(db_obj)
         update_data = obj_in.dict(exclude_unset=True)
 
@@ -63,7 +63,7 @@ class CRUDBase:
         return db_obj
 
     async def remove(self, db_obj, session: AsyncSession):
-        '''Удаление объекта из БД.'''
+        """Удаление объекта из БД."""
         await session.delete(db_obj)
         await session.commit()
         return db_obj

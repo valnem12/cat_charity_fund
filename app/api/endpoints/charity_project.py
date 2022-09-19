@@ -26,7 +26,7 @@ router = APIRouter()
 async def get_all_projects(
         session: AsyncSession = Depends(get_async_session),
 ):
-    '''Возвращает список всех проектов.'''
+    """Возвращает список всех проектов."""
     all_projects = await charity_project_crud.get_multi(session)
     return all_projects
 
@@ -41,9 +41,9 @@ async def create_new_project(
         project: CharityProjectCreate,
         session: AsyncSession = Depends(get_async_session),
 ):
-    '''Только для суперюзеров.
+    """Только для суперюзеров.
     Создаёт благотворительный проект.
-    '''
+    """
     await check_name_duplicate(project.name, session)
     new_project = await charity_project_crud.create(project, session)
     await investment_process(
@@ -63,9 +63,9 @@ async def remove_project(
         project_id: PositiveInt,
         session: AsyncSession = Depends(get_async_session),
 ) -> CharityProjectDB:
-    '''Только для суперюзеров.
+    """Только для суперюзеров.
     Удаляет проект.
-    '''
+    """
     project = await check_project_invest(project_id, session)
     return await charity_project_crud.remove(project, session)
 
@@ -80,8 +80,8 @@ async def update_project(
     obj_in: CharityProjectUpdate,
     session: AsyncSession = Depends(get_async_session),
 ) -> CharityProjectDB:
-    '''Только для суперюзеров.
-    Обновляет поля проекта.'''
+    """Только для суперюзеров.
+    Обновляет поля проекта."""
     await check_project_exists(project_id, session)
     project = await check_project_update(project_id, obj_in, session)
     project_update = await charity_project_crud.update(project, obj_in, session)

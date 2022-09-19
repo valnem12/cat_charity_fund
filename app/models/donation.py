@@ -4,6 +4,6 @@ from .abstract_base import AbstractBase
 
 
 class Donation(AbstractBase):
-    '''Модель пожертвований таблицы donation.'''
+    """Модель пожертвований таблицы donation."""
     user_id = Column(Integer, ForeignKey('user.id'))
     comment = Column(Text)

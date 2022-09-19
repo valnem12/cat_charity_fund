@@ -7,3 +7,4 @@ USER_DELETING_PROHIBITED = 'Удаление пользователей запр
 PASSSWORD_LEN_ERROR = 'Password should be at least 3 characters'
 PASSWORD_VALIDATION = 'Password should not contain e-mail'
 USER_EXISTS_ERROR = 'Пользователь уже был зарегистрирован'
+LIFETIME_SECONDS = 3600
